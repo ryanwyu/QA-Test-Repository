@@ -40,14 +40,14 @@ class CardComposition
   end
 
   def valuetype
-    
-    #pairs_count = pairs.size
-    
+        
     #order_by_point
+    #Chech the four of kind value
     if four_of_kind
       @valuetype = 'Four kinds'
       return @valuetype
     end
+
     
     if full_of_house
       @valuetype = 'Full House'
@@ -58,7 +58,6 @@ class CardComposition
     end
         
     if is_straight?
-      puts "passed here!"
       if is_flush?
         if @cards.last == Card.new('ten')
           @valuetype = 'Loyal Flush Straight'
@@ -75,10 +74,9 @@ class CardComposition
       @valuetype = 'Flush'
       return @valuetype
     elsif has_pairs?
-      @valuetype = 'Pairs or 2 Pairs'
       pair_size = pairs.size
       if pair_size == 2
-        @valuetype = "Two Pairs"
+        @valuetype = "Two Pair"
       else
         @valuetype = 'Pair'
       end
