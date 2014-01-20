@@ -1,5 +1,7 @@
-require '/Workshop/workspace/rubyworld/Hold\'em/card.rb'
-require '/Workshop/workspace/rubyworld/Hold\'em/types.rb'
+#!/usr/bin/ruby
+
+require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/card.rb'
+require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/types.rb'
 
   VALUETYPES = {
     'Loyal Flush Straight'=>10,
@@ -9,7 +11,7 @@ require '/Workshop/workspace/rubyworld/Hold\'em/types.rb'
     'Flush' => 6,
     'Straight' =>5,
     'Three Kinds' => 4,
-    'Two Pairs' => 3,
+    'Two Pair' => 3,
     'Pair' => 2,
     'High Card' => 1,
     'default' => 0

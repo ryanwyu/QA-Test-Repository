@@ -1,5 +1,4 @@
 class Types
-  
   CARDTYPES = {
     'spade' => 4,
     'heart' => 3,
@@ -23,4 +22,9 @@ class Types
     'two' => 2
     #,'one' => 1
     }
+    
+    def initialzie()
+    end
 end
+
+#puts Types::POINTS.class.methods.length#include?(:each)

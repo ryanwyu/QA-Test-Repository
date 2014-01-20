@@ -1,4 +1,7 @@
-require '/Workshop/workspace/rubyworld/Hold\'em/types.rb'
+#!/usr/bin/ruby
+
+#require '/Workshop/workspace/rubyworld/Hold\'em/types.rb'
+require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/types.rb'
 
 class Card
   attr_accessor :point, :type, :value
