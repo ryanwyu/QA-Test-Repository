@@ -28,7 +28,7 @@ class CardComposition
       @cards = cards.first(@size)
     else
       puts "Error when initialization!"
-      @cards = Card.new[5]
+      @cards = Array.new(Card.new)
     end
     
     @cards = order_by_point(@cards)

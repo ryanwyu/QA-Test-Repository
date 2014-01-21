@@ -5,18 +5,20 @@ require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/card
 
 
 class Poker
-  attr_accessor :cardset
+  attr_accessor :cardset, :length
   
-  def initialize()
+  def initialize
     points = Array(Types::POINTS.keys) 
     types = Array(Types::CARDTYPES.keys)
     @cardset = points.product(types)
+    @length = @cardset.length
   end
   
-  def length
-    return @cardset.length
+  def collect
+    self.initialize
+    self.shuffle
   end
-  
+    
   def shuffle
     cards = []
     while !@cardset.empty? do
@@ -27,15 +29,11 @@ class Poker
     @cardset = cards
     return @cardset
   end
+  
+  def deliver
+    card = @cardset.shift unless @cardset.empty?
+    @length -= 1
+    return card
+  end
+  
 end
-
-
-poker = Poker.new
-    
-puts poker.length
-
-puts poker.shuffle.class
-
-#poker.cardset.each {|card| puts card.to_s}
-
-puts poker.cardset.join(',').to_s #  each {|card| puts card.to_s}

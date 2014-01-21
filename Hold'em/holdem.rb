@@ -6,6 +6,9 @@
 #require '/Workshop/workspace/rubyworld/Hold\'em/cardcomposition.rb'
 require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/card.rb'
 require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/cardcomposition.rb'
+require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/poker.rb'
+require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/player.rb'
+require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/dealer.rb'
 
 # Main function to calculate the value of 5 cares compositions
 #cards = Array.new(5)
@@ -37,4 +40,42 @@ card5 = Card.new('three', 'heart')
 #puts card.size
 #puts card3 - card2
 #puts "Four of a kind: " + cardcomp.four_of_kind.point
+
+poker = Poker.new
+    
+puts poker.length
+
+poker.shuffle
+
+#poker.cardset.each {|card| puts card.to_s}
+
+puts poker.cardset.join(',').to_s #  each {|card| puts card.to_s}
+
+#puts poker.deliver.to_s
+players = Array.new(10) {|index| Player.new("Player#{index+1}")}
+
+#Deliver first hand card
+#players.each do |player|
+#  player.add_card(poker.deliver)
+#end ### Why it does not work?
+
+
+no = players.length
+
+for i in 1..(no*2) do
+  j = (i-1)%10
+  card = poker.deliver
+  players[j].add_card(card)
+  puts "Delivered one card #{card.to_s} to #{players[j].name}"
+end
+
+puts poker.length
+
+#puts players[9].show_hands
+
+players.each do |player|
+  puts player.show_hands
+end
+
+puts poker.cardset.join(',').to_s #  each {|card| puts card.to_s}
 
