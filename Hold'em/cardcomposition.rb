@@ -19,31 +19,30 @@ require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/type
 
 
 class CardComposition
-  attr_accessor :cards, :size, :valuetype, :value
-  
-  def initialize(cards, size=5)
+  attr_accessor :valuetype, :value
+  attr_reader :size, :cards
+    
+  def initialize(cards_ary)
     #get all 5 cards in an array @cards = [cards[0], cards[1], cards[2], cards[3], cards[4]]
-    @size = size
-    if cards.size >= @size
-      @cards = cards.first(@size)
+    if cards_ary.length >= 5
+      @cards = cards_ary.first(5)
     else
       puts "Error when initialization!"
-      @cards = Array.new(Card.new)
+      @cards = Array.new(5) {Card.new}
     end
-    
-    @cards = order_by_point(@cards)
-    @valuetype = 'default'
+    #@cards = order_by_point(cards_ary)
+    #@valuetype = 'default'
   end
 
   def to_s
-    s = "Cards: "
+    s = "Cards Composition: "
     @cards.each {|card| s += " "+card.to_s}
     return s
   end
 
-  def valuetype
+  def get_value_type
         
-    #order_by_point
+    self.sort
     #Chech the four of kind value
     if four_of_kind
       @valuetype = 'Four kinds'
@@ -76,7 +75,7 @@ class CardComposition
       @valuetype = 'Flush'
       return @valuetype
     elsif has_pairs?
-      pair_size = pairs.size
+      pair_size = get_pairs.size
       if pair_size == 2
         @valuetype = "Two Pair"
       else
@@ -88,13 +87,12 @@ class CardComposition
       return @valuetype
     end
   
-    puts "The #{@size} cards' value is counted: #{@valuetype}!"
+    #puts "The #{@size} cards' value is counted: #{@valuetype}!"
     return @valuetype
   end
   
   def sort
     @cards = order_by_point(@cards)
-    return self
   end
   
   def has_pairs?
@@ -105,16 +103,16 @@ class CardComposition
     return false
   end
   
-  def pairs
+  def get_pairs
     pairs = []
-    temp_cards = @cards
+    temp_cards = @cards.map.to_a
     while temp_cards.size > 1 do
-      card = temp_cards.first
-      if temp_cards.count(card) == 2
+      temp_card = temp_cards.first
+      if temp_cards.count(temp_card) == 2
         pairs << temp_cards.first
       end
       
-      temp_cards.delete(card)  
+      temp_cards.delete(temp_card)  
       
     end
     
@@ -158,41 +156,42 @@ class CardComposition
 
   def is_straight?
     straight = false
-    if (@cards.first - @cards.last) == (@size-1) 
+    if (@cards.first - @cards.last) == 4 
       #The straight structure except A-5 straight structure
-      puts "A"
+      #puts "A"
       straight = !(has_pairs? || three_of_kind || four_of_kind)
-    elsif (@cards.first == Card.new('ace')) && (@cards.last == Card.new('two')) && ((@cards[1]-@cards.last) == 3)
+    elsif (@cards.first == Card.new(['ace',''])) && (@cards.last == Card.new(['two',''])) && ((@cards[1]-@cards.last) == 3)
       #The A-2-3-4-5 structure
-      puts "B"
+      #puts "B"
       straight = !(has_pairs? || three_of_kind)
     end
-    puts "straight structure:"+straight.to_s
+    #puts "straight structure:"+straight.to_s
     return straight
   end
   
   def is_flush?
     suited = true
     card = @cards.first
-    if @size > 1
-      for i in 1..(@size-1)
+    size = @cards.length
+    for i in 1..(size-1)
         suited &&= card.suited?(@cards[i])
-      end
-      puts "The compose is flush? #{suited}"
-      return suited
     end
+      #puts "The compose is flush? #{suited}"
+    return suited
   end
   
   def three_of_kind
     c = nil
     CardComposition::count_of_kind(@cards, 3) {|card| puts card; c = card}
       
-    #DEBUG      
+    #debug = ''
+    if defined?(debug)
     puts "Three of a kind: "
     if c
       puts c.point
     else
       puts "None"
+    end
     end
     
     return c
@@ -202,12 +201,14 @@ class CardComposition
     c = nil
     CardComposition::count_of_kind(@cards, 4) {|card| c = card}
 
-    #DEBUG      
+    #debug = ""
+    if defined?(debug)      
     puts "Four of a kind: "
     if c
       puts c.point
     else
       puts "None"
+    end
     end
 
     return c
@@ -217,9 +218,12 @@ class CardComposition
     f = self.three_of_kind
     h = has_pairs?
     if f && h
+      #debug = ""
+      if defined?(debug)
       puts "We got full of house:"
       puts "#{f.point}"
       #puts "#{h.first.point}"
+      end
       return f
     end
     return nil
@@ -255,4 +259,8 @@ class CardComposition
     return temp_cards
   end  
   
+
+  def compare
+  end
+
 end
