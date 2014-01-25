@@ -1,4 +1,4 @@
-class Types
+class Types_deperated
   CARDTYPES = {
     'spade' => 4,
     'heart' => 3,

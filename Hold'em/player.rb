@@ -8,7 +8,7 @@ class Player
     @hands = []
   end
   
-  def add_card(card)
+  def receive_card(card)
     if card
       @hands << card
     end
@@ -16,15 +16,17 @@ class Player
   end
   
   def show_hands
-    hand = ''
+    hand = "#{@name} has #{@hands.length} cards:"
     @hands.each do |card|
-      hand += card.to_s
-    end
-    
-    return @name + " has #{@hands.length} cards:" + hand
+      hand += card.show_card
+    end    
+    return hand
   end
   
   def hand_value(community)
+  end
+  
+  def bet
   end
   
 end

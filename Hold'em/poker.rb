@@ -1,39 +1,40 @@
 #!/usr/bin/ruby
 
-require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/types.rb'
 require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/card.rb'
 
 
 class Poker
-  attr_accessor :cardset, :length
+  attr_accessor :count
+  
+  #cards = []
   
   def initialize
-    points = Array(Types::POINTS.keys) 
-    types = Array(Types::CARDTYPES.keys)
-    @cardset = points.product(types)
-    @length = @cardset.length
-  end
-  
-  def collect
-    self.initialize
-    self.shuffle
-  end
-    
-  def shuffle
-    cards = []
-    while !@cardset.empty? do
-      num = rand(@cardset.length)
-      cards.push(@cardset[num])
-      @cardset.delete_at(num)
+    points = ["ace", "king", "queen", "jack", "ten", "nine", "eight", "seven", "six", "five", "four", "three", "two"]
+    types = ["spade", "heart", "club", "diamond"]
+    @cards = []
+    types.each do |type|
+      cardset = points.product(Array.new(1,type))      
+      cardset.each do |card|
+        @cards << Card.new(card)
+      end
     end
-    @cardset = cards
-    return @cardset
+    @count = @cards.length
+  end
+      
+  def shuffle
+    @cards.shuffle!
   end
   
   def deliver
-    card = @cardset.shift unless @cardset.empty?
-    @length -= 1
+    if !@cards.empty?
+      card = @cards.shift 
+      @count = @cards.length
+    end
     return card
+  end
+  
+  def empty?
+    return @count == 0
   end
   
 end

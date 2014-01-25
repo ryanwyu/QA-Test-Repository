@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/local/bin/ruby
 #/Workshop/freeride/FreeRIDE/freeruby/bin/ruby
 
 
@@ -74,49 +74,53 @@ players = Array.new(3) {|index| Player.new("Player#{index+1}")}
 
 dealer = Dealer.new
 
-dealer.shuffle(2)
-puts dealer.poker.cardset.first(20).to_s
+dealer.shuffle
+
+puts "=====Card is Ready====="
 
 dealer.deliver_hands(players, 2)
-puts dealer.poker.cardset.length
-
+puts "=====Card is delivered====="
 players.each do |player|
-  #puts player.show_hands
+  puts player.show_hands
 end
+puts "======================="
 
+puts "====Deliver the community cards===="
 community = dealer.deliver_community
 #puts community.length
 
 cards = []
-s = "We have community cards of "
+puts "We have community cards of "
 community.each do |card|
-  cards << Card.new(card)
-  s += cards.last.to_s
+  puts card.show_card
 end
-puts s
+puts "======================="
 
 #players.each do |player|
-
+  puts "=== Player's hand ==="
   player = players[0]
-  onehand = []
-  t = "#{player.name} has hand card "
-  player.hands.each do |card|
-    onehand << Card.new(card)
-    t += onehand.last.to_s
-  end
-  puts t
-
-  card_group = cards+onehand
+  onehand = player.hands
+  puts player.show_hands
+  
+  puts "    === Count card value ==="
+  card_group = community+onehand
   cards_composition_ary = (card_group).combination(5).to_a
   
   #cards = cards_compositions.first
   #puts cards.to_s
-  cards_composition_ary.each do |cards_comp|
+  max_value = "High Card"
+  max_comp = []
+  cards_composition_ary.each do |cards_comp_ary|
     #puts cards_compositions.find_index(cards)
-    cardcomp = CardComposition.new(cards_comp)
-    cardcomp.get_value_type
-    #puts "Value is "+cardcomp.valuetype+" of "+ cardcomp.to_s
-    cardcomp = nil
+    cardcomp = CardComposition.new(cards_comp_ary)
+    value = cardcomp.get_value_type
+    if CardComposition.compare_value_type(value, max_value) == 1
+      max_value = value
+      max_comp = cardcomp.cards
+    end
+    puts "Value is "+cardcomp.valuetype
   end
+  
+  puts "Player's hand value is "+max_value
 
 #end

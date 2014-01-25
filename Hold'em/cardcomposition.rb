@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 
 require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/card.rb'
-require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/types.rb'
 
   VALUETYPES = {
     'Loyal Flush Straight'=>10,
@@ -36,7 +35,7 @@ class CardComposition
 
   def to_s
     s = "Cards Composition: "
-    @cards.each {|card| s += " "+card.to_s}
+    @cards.each {|card| s += " "+card.show_card}
     return s
   end
 
@@ -104,11 +103,12 @@ class CardComposition
   end
   
   def get_pairs
-    pairs = []
-    temp_cards = @cards.map.to_a
+    pairs = nil
+    temp_cards = @cards.map.to_a #just copy the array instead of the same array
     while temp_cards.size > 1 do
       temp_card = temp_cards.first
       if temp_cards.count(temp_card) == 2
+        pairs ||= []
         pairs << temp_cards.first
       end
       
@@ -182,18 +182,8 @@ class CardComposition
   
   def three_of_kind
     c = nil
-    CardComposition::count_of_kind(@cards, 3) {|card| puts card; c = card}
-      
-    #debug = ''
-    if defined?(debug)
-    puts "Three of a kind: "
-    if c
-      puts c.point
-    else
-      puts "None"
-    end
-    end
-    
+    CardComposition.count_of_kind(@cards, 3) {|card| c = card}
+          
     return c
   end
   
@@ -229,6 +219,10 @@ class CardComposition
     return nil
   end
   
+  def self.compare_value_type(valuetype1, valuetype2)
+    return VALUETYPES[valuetype1] <=> VALUETYPES[valuetype2]
+  end
+
   private
   
   def self.count_of_kind(cards, count)
@@ -259,8 +253,5 @@ class CardComposition
     return temp_cards
   end  
   
-
-  def compare
-  end
 
 end

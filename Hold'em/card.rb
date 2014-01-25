@@ -1,18 +1,46 @@
 #!/usr/bin/ruby
 
-#require '/Workshop/workspace/rubyworld/Hold\'em/types.rb'
-require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/types.rb'
-
 class Card
-  attr_accessor :point, :kind, :type, :value
+  attr_accessor :type, :value, :kind
+
+  POINTS = {
+  "ace" => 14,
+  "king" => 13,
+  'queen' => 12,
+  'jack' => 11,
+  'ten' => 10,
+  'nine' => 9,
+  'eight' => 8,
+  'seven' => 7,
+  'six' => 6,
+  'five' => 5,
+  'four' => 4,
+  'three' => 3,
+  'two' => 2,
+  'one' => 1,
+  '' => 0
+  }
+  
+  CARDTYPES = {
+    'spade' => 4,
+    'heart' => 3,
+    'club' => 2,
+    'diamond' => 1,
+    '' => 0
+  }
     
-  def initialize(ary=['',''])
-    @point = ary[0]
+  def point
+    return @kind
+  end
+    
+  def initialize(ary=['', ''])
+    @kind = ary[0]
     @type = ary[1]
+    @value = POINTS[@kind]
   end
   
   def <(card)
-    if self.compare(card ) < 0
+    if compare(card ) < 0
       return true
     else
       return false
@@ -20,7 +48,7 @@ class Card
   end
 
   def >(card)
-    if self.compare(card ) > 0
+    if compare(card ) > 0
       return true
     else
       return false
@@ -28,7 +56,7 @@ class Card
   end
   
   def ==(card)
-    if self.compare(card ) == 0
+    if compare(card ) == 0
       return true
     else
       return false
@@ -36,7 +64,7 @@ class Card
   end
   
   def !=(card)
-    if self.compare(card ) != 0
+    if compare(card ) != 0
       return true
     else
       return false
@@ -48,43 +76,49 @@ class Card
   end
   
   def +(card)
-    return (Types::POINTS[@point] + Types::POINTS[card.point])
+    return (Types::POINTS[@kind] + Types::POINTS[card.point])
   end
   
   def -(card)
     #puts "Types::POINTS[card.point]:"+Types::POINTS[card.point].to_s
-    #puts "Types::POINTS[@point]:"+Types::POINTS[@point].class.to_s
-    numa = Types::POINTS[@point]
-    numb = Types::POINTS[card.point]
+    #puts "Types::POINTS[@kind]:"+Types::POINTS[@kind].class.to_s
+    numa = POINTS[@kind]
+    numb = POINTS[card.point]
     #puts numa - numb
     return (numa - numb)
   end
     
-  def compare(card)
-    return nil if !card
-    comp = 0
-    #puts "The tracking point: "+card.to_s+"--"+Types::POINTS[card.point].to_s
-    if Types::POINTS[@point] < Types::POINTS[card.point] then comp = -1 end
-    if Types::POINTS[@point] > Types::POINTS[card.point] then comp = 1 end
-    return comp
+  def same?(card)
+    return self == card && suited?(card)
   end
   
   def suited?(card)
-    self.type == card.type
+    return self.type == card.type
   end
   
   def off_suited?(card)
-    !suited?(card)
+    return !suited?(card)
   end
   
-  def to_s
-    "[\"#{@point}\",\"#{@type}\"]"
+  def show_card
+    return "[#{@kind},#{@type}]"
   end
 
   def self.pairs?(card1, card2)
     return card1 == card2
   end
   
+  private
+  
+  def compare(card)
+    return nil if !card
+    comp = 0
+    #puts "The tracking point: "+card.to_s+"--"+Types::POINTS[card.point].to_s
+    if POINTS[@kind] < POINTS[card.point] then comp = -1 end
+    if POINTS[@kind] > POINTS[card.point] then comp = 1 end
+    return comp
+  end
+
 end
 
 
