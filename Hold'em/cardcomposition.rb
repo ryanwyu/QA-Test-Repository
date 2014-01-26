@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/card.rb'
+require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/pokercard.rb'
 
   VALUETYPES = {
     'Loyal Flush Straight'=>10,
@@ -18,6 +19,9 @@ require '/Workshop/workspace/GITRep/github/rep1/QA-Test-Repository/Hold\'em/card
 
 
 class CardComposition
+  
+  include PokerCard
+  
   attr_accessor :valuetype, :value
   attr_reader :size, :cards
     
@@ -39,9 +43,9 @@ class CardComposition
     return s
   end
 
-  def get_value_type
+  def get_value_type_old
         
-    self.sort
+    sort_old
     #Chech the four of kind value
     if four_of_kind
       @valuetype = 'Four kinds'
@@ -90,7 +94,7 @@ class CardComposition
     return @valuetype
   end
   
-  def sort
+  def sort_old
     @cards = order_by_point(@cards)
   end
   

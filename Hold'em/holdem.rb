@@ -87,6 +87,14 @@ puts "======================="
 
 puts "====Deliver the community cards===="
 community = dealer.deliver_community
+card1 = Card.new(['five', 'club'])
+card2 = Card.new(['seven', 'spade'])
+card3 = Card.new(['five', 'heart'])
+card4 = Card.new(['five', 'spade'])
+card5 = Card.new(['seven', 'heart'])
+
+community = Array[card1, card2, card3, card4, card5]
+
 #puts community.length
 
 cards = []
@@ -96,6 +104,21 @@ community.each do |card|
 end
 puts "======================="
 
+cardcomp = CardComposition.new(community)
+
+community = cardcomp.sort(community)
+puts "==== After sorted new way ====="
+community.each do |card|
+  puts card.show_card
+end
+
+
+
+
+
+
+debug = nil
+if debug # begin of debug
 #players.each do |player|
   puts "=== Player's hand ==="
   player = players[0]
@@ -113,7 +136,7 @@ puts "======================="
   cards_composition_ary.each do |cards_comp_ary|
     #puts cards_compositions.find_index(cards)
     cardcomp = CardComposition.new(cards_comp_ary)
-    value = cardcomp.get_value_type
+    value = cardcomp.get_value_type_old
     if CardComposition.compare_value_type(value, max_value) == 1
       max_value = value
       max_comp = cardcomp.cards
@@ -123,4 +146,6 @@ puts "======================="
   
   puts "Player's hand value is "+max_value
 
-#end
+end #of debug
+ 
+
