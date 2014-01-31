@@ -62,33 +62,41 @@ module PokerCard
   
 
   def sort(cards)
-  #Order the cords by card structure
-  debug = nil
+    #Order the cords by card structure
     temp_cards = cards.sort!.reverse!.map.to_a
-puts "=== in sort ===" if debug
-temp_cards.each do |card|
-  puts card.show_card if debug
-end
-    dup_cards = []
-      cards.each do |card|
-        dup_count = temp_cards.count(card)
-        puts "\nwe got #{dup_count} #{card.point}"+ " #{card.class}" if debug
-        if dup_count > 1          
-          while indx=temp_cards.find_index(card) do
-            #indx = temp_cards.find_index(card)
-            dup_cards << temp_cards[indx]
-            temp_cards.delete_at(indx)
-          end
-        end
-          puts "  the dup cards: " + dup_cards.to_s if debug
-          puts "  left: "+ temp_cards.to_s if debug
+  
+    debug = ''#nil
+    if debug
+      puts "=== in sort ==="
+      temp_cards.each do |card|
+        puts card.show_card
       end
-      puts "reach here:" + dup_cards.to_s if debug
-      cards = dup_cards + temp_cards
-      puts "We final got :" + cards.to_s + "\n" if debug
+    end
+  
+    dup_cards = []
+    cards.each do |card|
+      dup_count = temp_cards.count(card)
+      puts "\nwe got #{dup_count} #{card.point}"+ " #{card.class}" if debug
+      if dup_count > 1          
+        while indx = temp_cards.find_index(card) do
+          tc = temp_cards[indx]
+          if dup_count > 2
+            #put the dup card before the list
+            dup_cards.unshift(tc)
+          else
+            dup_cards << tc
+          end
+          temp_cards.delete_at(indx)
+        end
+      end
+      puts "  the dup cards: " + dup_cards.to_s if debug
+      puts "  left: "+ temp_cards.to_s if debug
+    end
+    puts "reach here:" + dup_cards.to_s if debug
+    cards = dup_cards + temp_cards
+    puts "We final got :" + cards.to_s + "\n" if debug
     return cards
   
-  #Bug: there will be issue when the 
   end
   
 end
