@@ -87,13 +87,13 @@ puts "======================="
 
 puts "====Deliver the community cards===="
 community = dealer.deliver_community
-card1 = Card.new(['five', 'club'])
-card2 = Card.new(['seven', 'spade'])
-card3 = Card.new(['five', 'heart'])
-card4 = Card.new(['five', 'spade'])
-card5 = Card.new(['seven', 'heart'])
+#card1 = Card.new(['five', 'club'])
+#card2 = Card.new(['seven', 'spade'])
+#card3 = Card.new(['five', 'heart'])
+#card4 = Card.new(['five', 'spade'])
+#card5 = Card.new(['seven', 'heart'])
 
-community = Array[card1, card2, card3, card4, card5]
+#community = Array[card1, card2, card3, card4, card5]
 
 #puts community.length
 
@@ -117,7 +117,7 @@ end
 
 
 
-debug = nil
+debug = ''
 if debug # begin of debug
 #players.each do |player|
   puts "=== Player's hand ==="

@@ -157,32 +157,6 @@ class CardComposition
   def pair_in?(card, cards)
       return cards.count(card) == 2
   end
-
-  def is_straight?
-    straight = false
-    if (@cards.first - @cards.last) == 4 
-      #The straight structure except A-5 straight structure
-      #puts "A"
-      straight = !(has_pairs? || three_of_kind || four_of_kind)
-    elsif (@cards.first == Card.new(['ace',''])) && (@cards.last == Card.new(['two',''])) && ((@cards[1]-@cards.last) == 3)
-      #The A-2-3-4-5 structure
-      #puts "B"
-      straight = !(has_pairs? || three_of_kind)
-    end
-    #puts "straight structure:"+straight.to_s
-    return straight
-  end
-  
-  def is_flush?
-    suited = true
-    card = @cards.first
-    size = @cards.length
-    for i in 1..(size-1)
-        suited &&= card.suited?(@cards[i])
-    end
-      #puts "The compose is flush? #{suited}"
-    return suited
-  end
   
   def three_of_kind
     c = nil
