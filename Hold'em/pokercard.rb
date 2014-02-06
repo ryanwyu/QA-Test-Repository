@@ -1,6 +1,6 @@
 #!/usr/local/bin/ruby
 
-module PokerCard
+module PokerCardValue
 # This is used for poker game
 # This module provides basic methods used for poker game calculation
 
@@ -21,47 +21,54 @@ module PokerCard
     'default' => 0
   }
 
-  def get_value_type
+  def get_value_type(cards = self.cards)
     
-    if has_pairs?
-      is_twopair = is_twopair?
-      is_threeofkind = is_threeofkind?
-      if is_twopair
-        if is_threeofkind
-          puts "full of house"
+    valuetype = "High Card"
+    cards = sort(cards)
+    
+    first_occurrance = cards.count(cards.first)
+    
+    if first_occurrance > 1
+      
+      valuetype = "Pair"      
+      second_occurrance = cards.count(cards[first_occurrance])
+      
+      if first_occurrance == 3
+        if second_occurrance > 1
+          valuetype = "Full House"
         else
-          puts "two pair"
+          valuetype = "Three Kinds"
         end
       else
-        if is_threeofkind
-          if is_fourofkind
-            puts "four of a kind"
-          else
-            puts "three of a kind"
-          end
-        else
-          puts "pair"
+        if second_occurrance > 1
+          valuetype = "Two Pair"
         end
-      end
+      end      
+      if first_occurrance == 4
+        valuetype = "Four Kinds"  
+      end  
+
     else
-      is_flush = is_flush?
-      is_straight = is_straight?
+
+      is_flush = is_flush?(cards)
+      is_straight = is_straight?(cards)
+
       if is_flush&&is_straight
-        puts "straight flush"
-      else  
-        puts "flushflag" if is_flush
-        puts "straightflag" if is_straight
-        if !(is_flush || is_straight)
-          puts "High card"
-        end
-      end
+        valuetype = "Flush Straight"
+      else
+        valuetype = "Flush" if is_flush
+        valuetype = "Straight" if is_straight
+      end    
+
     end
+    
+    return valuetype
     
   end
   
   
 
-  def sort(cards)
+  def sort(cards = self.cards)
     #Order the cords by card structure
     temp_cards = cards.sort!.reverse!.map.to_a
 
@@ -101,35 +108,28 @@ module PokerCard
   
   end
 
-  def is_straight?
+  def is_straight?(cards = self.cards)
+
     straight = false
-    if (cards.first - cards.last) == 4 
-      #The straight structure except A-5 straight structure
-      #puts "A"
-      straight = !(has_pairs? || three_of_kind || four_of_kind)
-    elsif (cards.first == Card.new(['ace',''])) && (cards.last == Card.new(['two',''])) && ((cards[1]-cards.last) == 3)
-      #The A-2-3-4-5 structure
-      #puts "B"
-      straight = !(has_pairs? || three_of_kind)
-    end
-    #puts "straight structure:"+straight.to_s
+    
+    straight ||= (cards.count(cards.first) == 1) && (((cards.first - cards.last) == 4 ) || (cards.first == Card.new(['ace',''])) && (cards.last == Card.new(['two',''])) && ((cards[1]-cards.last) == 3))
+
     return straight
+  
   end
   
-  def is_flush?
+  def is_flush?(cards=self.cards)
+
     suited = true
     card = self.cards.first
     size = self.cards.length
+
     for i in 1..(size-1)
         suited &&= card.suited?(self.cards[i])
     end
-      #puts "The compose is flush? #{suited}"
-    return suited
-  end
 
-  
-  def is_twopair?
-    
+    return suited
+
   end
   
 end
