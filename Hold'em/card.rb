@@ -32,6 +32,10 @@ class Card
   def point
     return @kind
   end
+  
+  def value
+    return POINTS[@kind]
+  end
     
   def initialize(ary=['', ''])
     @kind = ary[0]
